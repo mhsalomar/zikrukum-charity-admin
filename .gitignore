@@ -1,0 +1,57 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# builds
+.next/
+out/
+build/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# environment and secrets
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+
+# local platforms
+.vercel/
+.gstack/
+.codex/backups/
+graphify-out/
+.qa-pages.json
+
+# private or generated data
+private-assets/
+private-data/
+exports/
+backups/
+reports/
+screenshots/
+tmp-pdf-preview/
+*.csv
+*.xlsx
+*.xls
+*.pdf
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db

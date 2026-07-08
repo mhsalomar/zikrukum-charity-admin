@@ -1,0 +1,148 @@
+import type { FinanceRecordConfig } from "@/components/finance-records";
+
+const draftStatus = [
+  { value: "draft", label: "مسودة" },
+  { value: "approved", label: "معتمد" },
+  { value: "rejected", label: "مرفوض" },
+];
+
+const activeStatus = [
+  { value: "active", label: "نشط" },
+  { value: "inactive", label: "غير نشط" },
+  { value: "archived", label: "مؤرشف" },
+];
+
+export const financeRecordConfigs = {
+  expenses: {
+    table: "finance_expenses",
+    title: "المصروفات",
+    description: "إدارة المصروفات الإدارية المرتبطة بالبرامج أو البنود مع حذف فعلي للسجلات المدخلة بالخطأ بعد تأكيد واضح.",
+    addLabel: "إضافة مصروف",
+    returnTo: "/dashboard/finance/expenses",
+    statusOptions: draftStatus,
+    columns: [
+      { key: "expense_date", label: "التاريخ", kind: "date" },
+      { key: "category", label: "التصنيف" },
+      { key: "amount", label: "المبلغ", kind: "money" },
+      { key: "payment_method", label: "طريقة الدفع" },
+      { key: "reference_number", label: "المرجع" },
+      { key: "status", label: "الحالة", kind: "status" },
+    ],
+    fields: [
+      { name: "expense_date", label: "تاريخ المصروف", kind: "date", required: true },
+      { name: "category", label: "التصنيف", required: true },
+      { name: "amount", label: "المبلغ", kind: "number", required: true },
+      { name: "payment_method", label: "طريقة الدفع" },
+      { name: "reference_number", label: "رقم المرجع" },
+      { name: "status", label: "الحالة", kind: "select", options: draftStatus },
+      { name: "description", label: "الوصف", kind: "textarea" },
+    ],
+  },
+  revenues: {
+    table: "finance_revenues",
+    title: "الإيرادات",
+    description: "تسجيل الإيرادات ومصادرها باستخدام الأعمدة المعتمدة revenue_date و source_name.",
+    addLabel: "إضافة إيراد",
+    returnTo: "/dashboard/finance/revenues",
+    statusOptions: draftStatus,
+    columns: [
+      { key: "revenue_date", label: "التاريخ", kind: "date" },
+      { key: "source_name", label: "المصدر" },
+      { key: "donor_name", label: "الداعم" },
+      { key: "amount", label: "المبلغ", kind: "money" },
+      { key: "reference_number", label: "المرجع" },
+      { key: "status", label: "الحالة", kind: "status" },
+    ],
+    fields: [
+      { name: "revenue_date", label: "تاريخ الإيراد", kind: "date", required: true },
+      { name: "source_name", label: "مصدر الإيراد", required: true },
+      { name: "donor_name", label: "اسم الداعم" },
+      { name: "amount", label: "المبلغ", kind: "number", required: true },
+      { name: "reference_number", label: "رقم المرجع" },
+      { name: "status", label: "الحالة", kind: "select", options: draftStatus },
+      { name: "description", label: "الوصف", kind: "textarea" },
+    ],
+  },
+  budgetItems: {
+    table: "finance_budget_items",
+    title: "بنود الصرف",
+    description: "تعريف بنود الميزانية والصرف للمتابعة الإدارية.",
+    addLabel: "إضافة بند صرف",
+    returnTo: "/dashboard/finance/budget-items",
+    statusOptions: activeStatus,
+    columns: [
+      { key: "name", label: "البند" },
+      { key: "fiscal_year", label: "السنة" },
+      { key: "allocated_amount", label: "المعتمد", kind: "money" },
+      { key: "spent_amount", label: "المصروف", kind: "money" },
+      { key: "status", label: "الحالة", kind: "status" },
+    ],
+    fields: [
+      { name: "name", label: "اسم البند", required: true },
+      { name: "fiscal_year", label: "السنة المالية", kind: "number", required: true },
+      { name: "allocated_amount", label: "المبلغ المعتمد", kind: "number" },
+      { name: "spent_amount", label: "المبلغ المصروف", kind: "number" },
+      { name: "status", label: "الحالة", kind: "select", options: activeStatus },
+      { name: "notes", label: "ملاحظات", kind: "textarea" },
+    ],
+  },
+  donors: {
+    table: "donors",
+    title: "الداعمون",
+    description: "إدارة بيانات الداعمين الأساسية للمتابعة والتواصل.",
+    addLabel: "إضافة داعم",
+    returnTo: "/dashboard/finance/donors",
+    statusOptions: activeStatus,
+    columns: [
+      { key: "name", label: "الاسم" },
+      { key: "donor_type", label: "النوع" },
+      { key: "phone", label: "الجوال" },
+      { key: "email", label: "البريد" },
+      { key: "status", label: "الحالة", kind: "status" },
+    ],
+    fields: [
+      { name: "name", label: "اسم الداعم", required: true },
+      { name: "donor_type", label: "نوع الداعم" },
+      { name: "phone", label: "الجوال", kind: "tel" },
+      { name: "email", label: "البريد", kind: "email" },
+      { name: "status", label: "الحالة", kind: "select", options: activeStatus },
+      { name: "notes", label: "ملاحظات", kind: "textarea" },
+    ],
+  },
+  reports: {
+    table: "finance_reports",
+    title: "التقارير المالية",
+    description: "حفظ ملخصات تقارير مالية إدارية دون ملف قابل للطباعة أو تصدير رسمي الآن.",
+    addLabel: "إضافة تقرير",
+    returnTo: "/dashboard/finance/reports",
+    statusOptions: [
+      { value: "draft", label: "مسودة" },
+      { value: "approved", label: "معتمد" },
+      { value: "archived", label: "مؤرشف" },
+    ],
+    columns: [
+      { key: "title", label: "العنوان" },
+      { key: "report_type", label: "النوع" },
+      { key: "period_start", label: "من", kind: "date" },
+      { key: "period_end", label: "إلى", kind: "date" },
+      { key: "status", label: "الحالة", kind: "status" },
+    ],
+    fields: [
+      { name: "title", label: "عنوان التقرير", required: true },
+      { name: "report_type", label: "نوع التقرير" },
+      { name: "period_start", label: "بداية الفترة", kind: "date" },
+      { name: "period_end", label: "نهاية الفترة", kind: "date" },
+      {
+        name: "status",
+        label: "الحالة",
+        kind: "select",
+        options: [
+          { value: "draft", label: "مسودة" },
+          { value: "approved", label: "معتمد" },
+          { value: "archived", label: "مؤرشف" },
+        ],
+      },
+      { name: "summary", label: "الملخص", kind: "textarea" },
+    ],
+  },
+} satisfies Record<string, FinanceRecordConfig>;
