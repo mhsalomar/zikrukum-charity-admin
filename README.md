@@ -35,13 +35,7 @@ Open `http://localhost:3000`.
 
 ## Environment
 
-Copy `.env.example` to your local environment file and fill in your own project values:
-
-```bash
-cp .env.example .env.local
-```
-
-Never commit real environment files or secrets.
+See [`docs/environment.md`](docs/environment.md) for the required variables and safe placeholder examples. Never commit real environment files or secrets.
 
 ## Verification
 
