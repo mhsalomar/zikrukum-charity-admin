@@ -45,7 +45,7 @@ export default async function FinancePage() {
     { label: "تبرعات هذا الشهر", value: money(overview.donationsThisMonthTotal), icon: HandHeart },
     { label: "إيصالات غير مصدرة", value: String(overview.pendingReceiptsCount), icon: ReceiptText },
     { label: "مسيرات قيد المراجعة", value: String(overview.payrollRunsInReviewCount), icon: FileSpreadsheet },
-    { label: "مصروفات البرامج", value: money(overview.programExpensesTotal), icon: Wallet },
+    { label: "مصروفات برامج مرشحة (تقديري)", value: money(overview.programExpensesTotal), icon: Wallet },
     { label: "تعهدات مستحقة", value: String(overview.duePledgesCount), icon: FileText },
     {
       label: "آخر مسير رواتب",
