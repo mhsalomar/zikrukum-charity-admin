@@ -365,7 +365,7 @@ export async function deleteFinanceRecord(formData: FormData) {
   }
 
   const supabase = await createClient();
-  const { error } = await supabase.from(table).delete().eq("id", id);
+  const { error } = await supabase.from(table).update({ archived_at: new Date().toISOString() }).eq("id", id);
 
   if (error) {
     const constrained =
