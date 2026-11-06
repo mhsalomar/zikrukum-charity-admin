@@ -142,8 +142,8 @@ export async function getFinanceOverview(): Promise<FinanceOverview> {
     donations,
     pledges,
   ] = await Promise.all([
-    supabase.from("finance_revenues").select("amount,source_name").is("archived_at", null).limit(1000),
-    supabase.from("finance_expenses").select("amount,category").is("archived_at", null).limit(1000),
+    supabase.from("finance_revenues").select("amount,source_name").is("archived_at", null).eq("status", "approved").limit(1000),
+    supabase.from("finance_expenses").select("amount,category").is("archived_at", null).eq("status", "approved").limit(1000),
     supabase
       .from("employees_payroll")
       .select("id,net_salary,base_salary,allowances,deductions")
@@ -406,7 +406,7 @@ export async function getMonthlyCloseData(year: number, month: number): Promise<
     supabase.from("pledges").select("id", { count: "exact", head: true })
       .is("archived_at", null).not("status", "eq", "collected"),
     supabase.from("finance_reports").select("id,status", { count: "exact" })
-      .is("archived_at", null).gte("period_start", monthStart).lt("period_start", nextMonth).limit(1),
+      .is("archived_at", null).gte("period_start", monthStart).lt("period_start", nextMonth),
   ]);
 
   const revenueCount = revenues.count ?? 0;
@@ -421,8 +421,8 @@ export async function getMonthlyCloseData(year: number, month: number): Promise<
     {
       key: "bank_import",
       label: "استيراد كشف البنك",
-      status: revenueCount > 0 ? "complete" : "incomplete",
-      detail: revenueCount > 0 ? `${revenueCount} إيراد مسجّل` : "لم يُسجَّل أي إيراد للشهر",
+      status: revenueCount > 0 ? "review" : "incomplete",
+      detail: revenueCount > 0 ? `${revenueCount} إيراد مسجّل؛ لا يثبت ذلك استيراد كشف البنك أو مطابقته` : "لم يُسجَّل أي إيراد للشهر",
       href: "/dashboard/finance/revenues",
     },
     {
@@ -462,10 +462,10 @@ export async function getMonthlyCloseData(year: number, month: number): Promise<
     },
     {
       key: "open_pledges",
-      label: "عهد مفتوحة",
+      label: "تعهدات غير محصلة",
       status: openPledges === 0 ? "complete" : openPledges <= 5 ? "review" : "incomplete",
-      detail: openPledges === 0 ? "لا توجد عهد مفتوحة" : `${openPledges} عهدة مفتوحة`,
-      href: "/dashboard/finance/revenues",
+      detail: openPledges === 0 ? "لا توجد تعهدات غير محصلة" : `${openPledges} تعهدًا غير محصل`,
+      href: "/dashboard/pledges",
     },
     {
       key: "monthly_report",
