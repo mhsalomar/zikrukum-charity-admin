@@ -77,12 +77,14 @@ export async function createDailyProgress(formData: FormData) {
     .select("id,progress_date,entry_type")
     .eq("student_id", studentId)
     .eq("halaqa_id", halaqaId)
+    .eq("progress_date", progressDate)
+    .eq("entry_type", entryType)
     .is("archived_at", null)
     .maybeSingle();
 
   const { error } = await supabase
     .from("student_progress_records")
-    .upsert(payload, { onConflict: "student_id,halaqa_id", ignoreDuplicates: false });
+    .upsert(payload, { onConflict: "student_id,halaqa_id,progress_date,entry_type", ignoreDuplicates: false });
   if (error) redirect("/teacher/progress?error=save");
 
   revalidatePath("/teacher/progress");
